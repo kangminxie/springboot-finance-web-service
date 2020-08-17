@@ -2,7 +2,11 @@ package com.kangmin.app.service.impl;
 
 import com.kangmin.app.dao.AccountDao;
 import com.kangmin.app.model.Account;
+import com.kangmin.app.model.CustomResponse;
 import com.kangmin.app.service.AccountService;
+import com.kangmin.app.util.Message;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,18 +16,21 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class AccountServiceJpaImpl implements AccountService {
+public class AccountServiceImpl implements AccountService {
 
     private final AccountDao accountDao;
 
-    public AccountServiceJpaImpl(final AccountDao accountDao) {
+    public AccountServiceImpl(final AccountDao accountDao) {
         this.accountDao = accountDao;
     }
 
     @Override
     public List<Account> getAll() {
         return accountDao.findAll().stream()
-                .peek(each -> each.setPassword("[***protected***]"))
+                .map(each -> {
+                    each.setPassword("[***protected***]");
+                    return each;
+                })
                 .collect(Collectors.toList());
     }
 
@@ -40,8 +47,8 @@ public class AccountServiceJpaImpl implements AccountService {
             return Optional.empty();
         }
         // == new account ==
-        if (account.getAccountId().isEmpty()) {
-            account.setAccountId(UUID.randomUUID().toString());
+        if (account.getId().isEmpty()) {
+            account.setId(UUID.randomUUID().toString());
         }
         accountDao.save(account);
         return Optional.of(account);
@@ -56,5 +63,23 @@ public class AccountServiceJpaImpl implements AccountService {
             return Optional.of(sessionAccount);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public synchronized ResponseEntity<?> depositCheck(final String username, final String amountStr) {
+        final CustomResponse response = new CustomResponse();
+        final Optional<Account> accountOpt = accountDao.findByUsername(username);
+
+        if (accountOpt.isPresent()) {
+            final Account account = accountOpt.get();
+            final double amount = Double.parseDouble(amountStr);
+            account.setCash(account.getCash() + amount);
+            accountDao.save(account);
+            response.setMessage(Message.DEPOSIT_CHECK_SUCCESS);
+        } else {
+            response.setMessage(Message.ACCOUNT_DOES_NOT_EXIST);
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

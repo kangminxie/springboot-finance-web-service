@@ -1,4 +1,4 @@
-package com.kangmin.app.controller;
+package com.kangmin.app.controller.rest;
 
 import com.kangmin.app.model.Account;
 import com.kangmin.app.model.CustomResponse;
@@ -22,11 +22,11 @@ import javax.validation.Valid;
 import static com.kangmin.app.util.AttributeName.SESSION_ACCOUNT;
 
 @RestController
-public class AccountRestController {
+public class AccountController {
 
     private final AccountService accountService;
 
-    public AccountRestController(final AccountService accountService) {
+    public AccountController(final AccountService accountService) {
         this.accountService = accountService;
     }
 
@@ -43,7 +43,7 @@ public class AccountRestController {
     public ResponseEntity<CustomResponse> login(final @Valid @RequestBody LoginForm form,
                                                 final BindingResult bindingResult,
                                                 final HttpServletRequest request) {
-        HttpSession session = request.getSession();
+        final HttpSession session = request.getSession();
         final CustomResponse response = new CustomResponse();
 
         if (bindingResult.hasErrors()) {

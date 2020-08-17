@@ -12,7 +12,7 @@ public interface AccountDao extends JpaRepository<Account, String> {
 
     List<Account> findAll();
 
-    Optional<Account> findByAccountId(String accountId);
+    Optional<Account> findById(String accountId);
 
     Optional<Account> findByEmail(String email);
 

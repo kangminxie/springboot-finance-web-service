@@ -1,4 +1,4 @@
-package com.kangmin.app.controller;
+package com.kangmin.app.controller.rest;
 
 import com.kangmin.app.model.CustomResponse;
 import com.kangmin.app.util.Message;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/error")
-public class ErrorRestController {
+public class ErrorController {
 
     @RequestMapping(value = "/invalid-session", method = RequestMethod.GET)
     public ResponseEntity<CustomResponse> handleInvalidSession() {

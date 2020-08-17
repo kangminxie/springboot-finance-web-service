@@ -1,10 +1,11 @@
-package com.kangmin.app.controller;
+package com.kangmin.app.controller.rest;
 
 import com.kangmin.app.model.Account;
 import com.kangmin.app.model.CustomResponse;
 import com.kangmin.app.model.Fund;
 import com.kangmin.app.model.dto.CreateCustomerForm;
 import com.kangmin.app.model.dto.CreateFundForm;
+import com.kangmin.app.model.dto.DepositCheckForm;
 import com.kangmin.app.service.AccountService;
 import com.kangmin.app.service.FundService;
 import com.kangmin.app.util.AccountUtil;
@@ -23,13 +24,13 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/admin")
-public class AdminRestController {
+public class AdminController {
 
     private final AccountService accountService;
     private final FundService fundService;
 
-    public AdminRestController(final AccountService accountService,
-                               final FundService fundService) {
+    public AdminController(final AccountService accountService,
+                           final FundService fundService) {
         this.accountService = accountService;
         this.fundService = fundService;
     }
@@ -94,4 +95,18 @@ public class AdminRestController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    // == only admin can POST deposit check for normal users ==
+    @RequestMapping(value = {"/depositCheck"}, method = RequestMethod.POST)
+    public ResponseEntity<?> depositCheck(
+            final @Valid @RequestBody DepositCheckForm form,
+            final BindingResult bindingResult
+    ) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return accountService.depositCheck(form.getUsername(), form.getAmount());
+    }
+
 }

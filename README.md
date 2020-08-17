@@ -10,8 +10,10 @@ Self-project-improvement
 * change password (TBD)
 * check all current funds
 * check an individual fund
+* buy fund
 
 ### Admin Account User Cases
 * register new normal/custom account
 * check all current accounts
 * reset password (TBD)
+* deposit check for normal user

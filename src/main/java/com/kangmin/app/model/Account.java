@@ -12,7 +12,7 @@ import javax.persistence.Table;
 public class Account {
 
     @Id
-    private String accountId;
+    private String id;
 
     private String email;
 
@@ -29,22 +29,22 @@ public class Account {
     public Account() {
     }
 
-    public Account(final String accountId,
+    public Account(final String id,
                    final String email,
                    final String username,
                    final String name,
                    final String role,
                    final String password) {
-        this(accountId, email, username, name, role, password, 0.0);
+        this(id, email, username, name, role, password, 0.0);
     }
-    public Account(final String accountId,
+    public Account(final String id,
                    final String email,
                    final String username,
                    final String name,
                    final String role,
                    final String password,
                    final double cash) {
-        this.accountId = accountId;
+        this.id = id;
         this.email = email;
         this.username = username;
         this.name = name;

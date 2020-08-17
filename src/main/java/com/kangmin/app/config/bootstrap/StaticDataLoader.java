@@ -50,7 +50,8 @@ public class StaticDataLoader implements CommandLineRunner {
                             "normal",
                             "NameN",
                             "NORMAL",
-                            "111"
+                            "111",
+                            5000.0
                     )
             );
             accountService.createAccount(

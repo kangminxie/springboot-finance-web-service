@@ -1,4 +1,4 @@
-package com.kangmin.app.controller;
+package com.kangmin.app.controller.rest;
 
 import com.kangmin.app.model.CustomResponse;
 import com.kangmin.app.util.Message;
@@ -10,14 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/public")
-public class PublicRestController {
-
-    @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
-    public ResponseEntity<CustomResponse> indexInfo() {
-        final CustomResponse response = new CustomResponse();
-        response.setMessage(Message.INDEX);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+public class TestController {
 
     @RequestMapping(value = "/ok", method = RequestMethod.GET)
     public ResponseEntity<CustomResponse> checkOkRequest() {
