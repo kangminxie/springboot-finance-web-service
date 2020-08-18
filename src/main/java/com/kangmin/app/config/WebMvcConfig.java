@@ -1,6 +1,7 @@
 package com.kangmin.app.config;
 
 import com.kangmin.app.interceptor.AdminPrivilegeHandlerInterceptor;
+import com.kangmin.app.interceptor.ExcludeAdminHandlerInterceptor;
 import com.kangmin.app.interceptor.LoginSessionHandlerInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -24,6 +25,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return new AdminPrivilegeHandlerInterceptor();
     }
 
+    @Bean
+    ExcludeAdminHandlerInterceptor excludeAdminHandlerInterceptor() {
+        return new ExcludeAdminHandlerInterceptor();
+    }
+
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(loginSessionFilter())
@@ -35,11 +41,18 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/login",
                         "/logout",
                         "/register",
-                        "/H2/**",
-                        "/error/**"
+                        "/error/**",
+                        "/H2/**"    // dev-H2-check
                 );
 
         registry.addInterceptor(adminPrivilegeFilter())
                 .addPathPatterns("/admin/**");
+
+        registry.addInterceptor(excludeAdminHandlerInterceptor())
+                .addPathPatterns(
+                        "/funds/buy",
+                        "/funds/sell",
+                        "/requestCheck"
+                );
     }
 }

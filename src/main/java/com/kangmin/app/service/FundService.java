@@ -17,9 +17,11 @@ public interface FundService {
 
     Optional<Fund> findBySymbol(String symbol);
 
-    boolean isExistBySymbol(String symbol);
+    boolean isNotExistBySymbol(String symbol);
 
-    Optional<Fund> createFund(String name, String symbol, double initValue);
+    ResponseEntity<?> createFund(String name, String symbol, double initValue);
 
     ResponseEntity<?> buyFund(Account account, String symbol, String cashValue);
+
+    ResponseEntity<?> sellFund(Account account, String symbol, String numShares);
 }

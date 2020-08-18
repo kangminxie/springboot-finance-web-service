@@ -48,9 +48,9 @@ public class StaticDataLoader implements CommandLineRunner {
                             "id-0111",
                             "normal111@security.com",
                             "normal",
-                            "NameN",
+                            "NameNormal",
                             "NORMAL",
-                            "111",
+                            "normal",
                             5000.0
                     )
             );
@@ -59,17 +59,18 @@ public class StaticDataLoader implements CommandLineRunner {
                             "id-0222",
                             "admin222@security.com",
                             "admin",
-                            "NameA",
+                            "NameAdmin",
                             "ADMIN",
-                            "222"
+                            "admin"
                     )
             );
         }
 
         if (fundService.getAll().isEmpty()) {
-            fundService.createFund("Amazon", "AMZN", 100.0);
-            fundService.createFund("Apple", "APPL", 200.0);
-            fundService.createFund("Google", "GOOG", 300.0);
+            fundService.createFund("Amazon", "AMZN", 100.00);
+            fundService.createFund("Apple", "APPL", 200.00);
+            fundService.createFund("Facebook", "FABK", 150.00);
+            fundService.createFund("Google", "GOOG", 300.00);
         }
     }
 }

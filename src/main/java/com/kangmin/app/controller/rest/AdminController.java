@@ -2,12 +2,13 @@ package com.kangmin.app.controller.rest;
 
 import com.kangmin.app.model.Account;
 import com.kangmin.app.model.CustomResponse;
-import com.kangmin.app.model.Fund;
-import com.kangmin.app.model.dto.CreateCustomerForm;
-import com.kangmin.app.model.dto.CreateFundForm;
-import com.kangmin.app.model.dto.DepositCheckForm;
+import com.kangmin.app.model.payload.admin.CreateAccountRequest;
+import com.kangmin.app.model.payload.admin.CreateFundRequest;
+import com.kangmin.app.model.payload.admin.DepositCheckRequest;
+import com.kangmin.app.model.payload.admin.TransitionDayRequest;
 import com.kangmin.app.service.AccountService;
 import com.kangmin.app.service.FundService;
+import com.kangmin.app.service.TransitionDayService;
 import com.kangmin.app.util.AccountUtil;
 import com.kangmin.app.util.Message;
 import org.springframework.http.HttpStatus;
@@ -19,8 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
@@ -28,11 +30,14 @@ public class AdminController {
 
     private final AccountService accountService;
     private final FundService fundService;
+    private final TransitionDayService transitionDayService;
 
     public AdminController(final AccountService accountService,
-                           final FundService fundService) {
+                           final FundService fundService,
+                           final TransitionDayService transitionDayService) {
         this.accountService = accountService;
         this.fundService = fundService;
+        this.transitionDayService = transitionDayService;
     }
 
     // == only admin can see all accounts ==
@@ -42,10 +47,10 @@ public class AdminController {
         return new ResponseEntity<>(accounts, HttpStatus.OK);
     }
 
-    // == POST /register ==
+    // == only admin can POST create new account ==
     @RequestMapping(value = "/accounts", method = RequestMethod.POST)
     public ResponseEntity<CustomResponse> registerNewAccount(
-            final @Valid @RequestBody CreateCustomerForm form,
+            final @Valid @RequestBody CreateAccountRequest form,
             final BindingResult bindingResult
     ) {
         final CustomResponse response = new CustomResponse();
@@ -72,34 +77,25 @@ public class AdminController {
 
     // == only admin can POST new funds ==
     @RequestMapping(value = {"/funds"}, method = RequestMethod.POST)
-    public ResponseEntity<CustomResponse> createNewFund(
-            final @Valid @RequestBody CreateFundForm form,
+    public ResponseEntity<?> createNewFund(
+            final @Valid @RequestBody CreateFundRequest form,
             final BindingResult bindingResult
     ) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        final CustomResponse response = new CustomResponse();
-        final Optional<Fund> createdOpt = fundService.createFund(
+        return fundService.createFund(
                 form.getName(),
                 form.getSymbol(),
                 Double.parseDouble(form.getInitialPrice())
         );
-
-        if (createdOpt.isPresent()) {
-            response.setMessage(Message.FUND_CREATED_SUCCESS);
-        } else {
-            response.setMessage(Message.FUND_ALREADY_EXIST);
-        }
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // == only admin can POST deposit check for normal users ==
     @RequestMapping(value = {"/depositCheck"}, method = RequestMethod.POST)
     public ResponseEntity<?> depositCheck(
-            final @Valid @RequestBody DepositCheckForm form,
+            final @Valid @RequestBody DepositCheckRequest form,
             final BindingResult bindingResult
     ) {
         if (bindingResult.hasErrors()) {
@@ -109,4 +105,24 @@ public class AdminController {
         return accountService.depositCheck(form.getUsername(), form.getAmount());
     }
 
+    @RequestMapping(value = "/transitionDay", method = RequestMethod.POST)
+    public ResponseEntity<?> transitionDay(
+            final @Valid @RequestBody(required = false) TransitionDayRequest form,
+            final BindingResult bindingResult
+    ) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        final Map<String, String> changes = transitionDayService.transitionDay(form);
+        final Map<String, Object> response = new HashMap<>();
+        if (changes.isEmpty()) {
+            response.put("message", "There is no recent changes for all funds");
+        } else {
+            response.put("message", Message.TRANSITION_DAY_SUCCESS);
+            response.put("fluctuation", changes);
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

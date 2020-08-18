@@ -1,4 +1,4 @@
-package com.kangmin.app.model.dto;
+package com.kangmin.app.model.payload;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 @NoArgsConstructor
-public class LoginForm {
+public class LoginRequest {
 
     @NotBlank
     private String username;

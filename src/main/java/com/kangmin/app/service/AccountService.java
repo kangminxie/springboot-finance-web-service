@@ -17,4 +17,8 @@ public interface AccountService {
     Optional<Account> loginAuthenticate(String username, String password);
 
     ResponseEntity<?> depositCheck(String username, String amountStr);
+
+    ResponseEntity<?> requestCheck(String username, String amountStr);
+
+    ResponseEntity<?> viewPortfolio(Account account);
 }

@@ -2,7 +2,8 @@ package com.kangmin.app.controller.rest;
 
 import com.kangmin.app.model.Account;
 import com.kangmin.app.model.CustomResponse;
-import com.kangmin.app.model.dto.LoginForm;
+import com.kangmin.app.model.payload.LoginRequest;
+import com.kangmin.app.model.payload.GetCheckRequest;
 import com.kangmin.app.service.AccountService;
 
 import com.kangmin.app.util.Message;
@@ -34,20 +35,21 @@ public class AccountController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ResponseEntity<CustomResponse> getLogin() {
         final CustomResponse response = new CustomResponse();
-        response.setMessage(Message.BAD_REQUEST);
+        response.setMessage(Message.UNSUPPORTED);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     // == POST /login ==
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<CustomResponse> login(final @Valid @RequestBody LoginForm form,
+    public ResponseEntity<CustomResponse> login(final @Valid @RequestBody LoginRequest form,
                                                 final BindingResult bindingResult,
                                                 final HttpServletRequest request) {
         final HttpSession session = request.getSession();
         final CustomResponse response = new CustomResponse();
 
         if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            response.setMessage(Message.REQUEST_FIELD_ISSUE);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
         final Optional<Account> sessionAccount = accountService.loginAuthenticate(
@@ -82,5 +84,32 @@ public class AccountController {
         }
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    // == GET /viewPortfolio ==
+    @RequestMapping(value = "/viewPortfolio", method = RequestMethod.GET)
+    public ResponseEntity<?> viewPortfolio(final HttpServletRequest request)  {
+        final HttpSession session = request.getSession();
+        final Account account = (Account) session.getAttribute(SESSION_ACCOUNT);
+        return accountService.viewPortfolio(account);
+    }
+
+    // == POST /requestCheck ==
+    @RequestMapping(value = "/requestCheck", method = RequestMethod.POST)
+    public ResponseEntity<?> requestCheck(
+            final @Valid @RequestBody GetCheckRequest form,
+            final BindingResult bindingResult,
+            final HttpServletRequest request
+    ) {
+        if (bindingResult.hasErrors()) {
+            final CustomResponse response = new CustomResponse();
+            response.setMessage(Message.REQUEST_FIELD_ISSUE);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+
+        final HttpSession session = request.getSession();
+        final Account account = (Account) session.getAttribute(SESSION_ACCOUNT);
+
+        return accountService.requestCheck(account.getUsername(), form.getCashValue());
     }
 }

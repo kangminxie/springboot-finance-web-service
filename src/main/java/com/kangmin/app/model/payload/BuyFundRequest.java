@@ -1,4 +1,4 @@
-package com.kangmin.app.model.dto;
+package com.kangmin.app.model.payload;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class BuyFundForm {
+public class BuyFundRequest {
 
     @NotBlank
     private String symbol;

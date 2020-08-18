@@ -11,14 +11,13 @@ public final class Message {
     public static final String INSUFFICIENT_CASH_BUY_FUND = "You don't have enough cash in your account to make this purchase";
     public static final String FUND_DOES_NOT_EXIST = "The fund you provided does not exist";
     public static final String BUY_FUND_SUCCESS = "The fund has been successfully purchased";
-
+    public static final String SELL_FUND_SUCCESS = "The shares have been successfully sold";
     public static final String INSUFFICIENT_SHARE = "You don’t have that many shares in your portfolio";
+    public static final String NO_FUNDS_IN_PORTFOLIO = "You don't have any funds in your Portfolio";
 
-    // == check deposit & withdraw ==
+    // == check deposit & request ==
     public static final String DEPOSIT_CHECK_SUCCESS = "The check was successfully deposited";
-
-    // == privilege handle ==
-    public static final String NOT_AUTHORIZED = "You are not authorized to access it";
+    public static final String INSUFFICIENT_CASH_CHECK_REQUEST = "You don't have sufficient funds in your account to cover the requested check";
 
     // == admin ==
     public static final String ACCOUNT_PASSWORD_NOT_MATCH = "The password does not match";
@@ -28,8 +27,13 @@ public final class Message {
     public static final String FUND_ALREADY_EXIST = "The fund with name or symbol is already existed";
     public static final String FUND_CREATED_SUCCESS = "The fund was successfully created";
 
-    // == general ==
+    // == privilege handle ==
+    public static final String NOT_AUTHORIZED = "You are not authorized to access it";
+    public static final String ACCESS_EXCLUDED = "Your privilege does not fit for this action";
+    public static final String TRANSITION_DAY_SUCCESS = "The fund prices have been successfully recalculated";
+
+    // == test or general ==
     public static final String INDEX = "Hello user, please sign-in to perform actions";
-    public static final String OK = "status is good";
-    public static final String BAD_REQUEST = "bad request";
+    public static final String UNSUPPORTED = "unsupported request";
+    public static final String REQUEST_FIELD_ISSUE = "please check your request fields";
 }

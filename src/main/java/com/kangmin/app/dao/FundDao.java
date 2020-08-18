@@ -18,7 +18,7 @@ public interface FundDao extends JpaRepository<Fund, Long> {
 
     Optional<Fund> findBySymbol(String symbol);
 
-    Optional<Fund> findByNameOrSymbol(String name, String symbol);
+    // Optional<Fund> findByNameOrSymbol(String name, String symbol);
 
     boolean existsBySymbol(String symbol);
 

@@ -6,14 +6,17 @@ Self-project-improvement
 
 ### Normal/Custom Account User Cases
 * login & logout
+* check all current funds and individual fund
+* buy fund
+* sell fund
+* request check
 * update self-information (TBD)
 * change password (TBD)
-* check all current funds
-* check an individual fund
-* buy fund
 
 ### Admin Account User Cases
-* register new normal/custom account
+* register new custom account
 * check all current accounts
-* reset password (TBD)
+* create new fund
 * deposit check for normal user
+* transition day to change fund price
+* reset password (TBD)

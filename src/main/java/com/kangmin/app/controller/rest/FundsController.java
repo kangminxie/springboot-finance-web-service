@@ -3,7 +3,8 @@ package com.kangmin.app.controller.rest;
 import com.kangmin.app.model.Account;
 import com.kangmin.app.model.CustomResponse;
 import com.kangmin.app.model.Fund;
-import com.kangmin.app.model.dto.BuyFundForm;
+import com.kangmin.app.model.payload.BuyFundRequest;
+import com.kangmin.app.model.payload.SellFundRequest;
 import com.kangmin.app.service.FundService;
 import com.kangmin.app.util.Message;
 import org.slf4j.Logger;
@@ -49,17 +50,16 @@ public class FundsController {
 
     @RequestMapping(value = {"/funds/buy"}, method = RequestMethod.POST)
     public ResponseEntity<?> buyFund(
-            final @RequestBody BuyFundForm form,
+            final @RequestBody BuyFundRequest form,
             final @Valid BindingResult bindingResult,
             final HttpServletRequest request
     ) {
-        LOGGER.info(">>> in Controller received dto" + form);
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         final CustomResponse response = new CustomResponse();
-        if (!fundService.isExistBySymbol(form.getSymbol())) {
+        if (fundService.isNotExistBySymbol(form.getSymbol())) {
             response.setMessage(Message.FUND_DOES_NOT_EXIST);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
@@ -72,5 +72,27 @@ public class FundsController {
         }
 
         return fundService.buyFund(account, form.getSymbol(), form.getCashValue());
+    }
+
+    @RequestMapping(value = {"/funds/sell"}, method = RequestMethod.POST)
+    public ResponseEntity<?> sellFund(
+            final @RequestBody SellFundRequest form,
+            final @Valid BindingResult bindingResult,
+            final HttpServletRequest request
+    ) {
+        LOGGER.info(">>> in Controller received dto for sellFundForm:" + form);
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        final CustomResponse response = new CustomResponse();
+        if (fundService.isNotExistBySymbol(form.getSymbol())) {
+            response.setMessage(Message.FUND_DOES_NOT_EXIST);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+
+        final HttpSession session = request.getSession();
+        final Account account = (Account) session.getAttribute(SESSION_ACCOUNT);
+        return fundService.sellFund(account, form.getSymbol(), form.getNumShares());
     }
 }

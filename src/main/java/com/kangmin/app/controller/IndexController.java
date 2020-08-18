@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class IndexController {
 
     @ResponseBody
-    @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
-    public ResponseEntity<CustomResponse> indexInfo() {
+    @RequestMapping(value = {"", "/", "/index"}, method = RequestMethod.GET)
+    public ResponseEntity<CustomResponse> showIndexInfo() {
         final CustomResponse response = new CustomResponse();
         response.setMessage(Message.INDEX);
         return new ResponseEntity<>(response, HttpStatus.OK);

@@ -57,25 +57,27 @@ public class FundServiceImpl implements FundService {
     }
 
     @Override
-    public boolean isExistBySymbol(final String symbol) {
-        return fundDao.existsBySymbol(symbol);
+    public boolean isNotExistBySymbol(final String symbol) {
+        return !fundDao.existsBySymbol(symbol);
     }
 
     @Override
     @Transactional
-    public Optional<Fund> createFund(final String name,
-                                     final String symbol,
-                                     final double initialPrice) {
+    public ResponseEntity<?> createFund(final String name,
+                                        final String symbol,
+                                        final double initialPrice) {
+        LOGGER.info(">>>> createFund in FundService");
+
+        final CustomResponse response = new CustomResponse();
         if (fundDao.existsByNameOrSymbol(name, symbol)) {
-            return Optional.empty();
+            response.setMessage(Message.FUND_ALREADY_EXIST);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
 
-        final Fund fund = new Fund();
-        fund.setName(name);
-        fund.setSymbol(symbol);
-        fund.setPrice(initialPrice);
-        final Fund result = fundDao.save(fund);
-        return Optional.of(result);
+        final Fund fund = new Fund(name, symbol, initialPrice);
+        fundDao.save(fund);
+        response.setMessage(Message.FUND_CREATED_SUCCESS);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Override
@@ -109,6 +111,42 @@ public class FundServiceImpl implements FundService {
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
 
+        response.setMessage(Message.FUND_DOES_NOT_EXIST);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> sellFund(final Account account,
+                                      final String symbol,
+                                      final String numShares) {
+        LOGGER.info(">>>> sellFund in FundService");
+        Optional<Fund> fundOpt = fundDao.findBySymbol(symbol);
+        CustomResponse response = new CustomResponse();
+        if (fundOpt.isPresent()) {
+            final Fund fund = fundOpt.get();
+            final Optional<Position> positionOpt = positionDao.findByFundAndAccount(fund, account);
+
+            if (positionOpt.isPresent()) {
+                final Position position = positionOpt.get();
+                final int soldShares = Integer.parseInt(numShares);
+                final int newShares = position.getShares() - soldShares;
+                if (newShares >= 0) {
+                    position.setShares(newShares);
+                    positionDao.save(position);
+                    final double increasedCash = soldShares * fund.getPrice();
+                    account.setCash(account.getCash() + increasedCash);
+                    accountDao.save(account);
+                    response.setMessage(Message.SELL_FUND_SUCCESS);
+                    return new ResponseEntity<>(response, HttpStatus.OK);
+                }
+            }
+
+            // == no position or position is not enough ==
+            response.setMessage(Message.INSUFFICIENT_SHARE);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+
+        // == no such fund at this moment ==
         response.setMessage(Message.FUND_DOES_NOT_EXIST);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

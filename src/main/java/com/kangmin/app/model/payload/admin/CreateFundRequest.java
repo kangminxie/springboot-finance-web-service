@@ -1,4 +1,4 @@
-package com.kangmin.app.model.dto;
+package com.kangmin.app.model.payload.admin;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
-public class CreateFundForm {
+public class CreateFundRequest {
 
     @NotBlank
     @Size(min = 1)

@@ -25,4 +25,11 @@ public class ErrorController {
         response.setMessage(Message.NOT_AUTHORIZED);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/access-excluded", method = RequestMethod.GET)
+    public ResponseEntity<CustomResponse> handleAccessExcluded() {
+        final CustomResponse response = new CustomResponse();
+        response.setMessage(Message.ACCESS_EXCLUDED);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
