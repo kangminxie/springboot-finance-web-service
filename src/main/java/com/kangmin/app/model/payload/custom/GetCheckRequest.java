@@ -1,4 +1,4 @@
-package com.kangmin.app.model.payload;
+package com.kangmin.app.model.payload.custom;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ public class GetCheckRequest {
 
     @NotBlank
     @Digits(integer = 11, fraction = 2)
-    @Min(value = 0)
+    @Min(value = 1)
     private String cashValue;
 
     @Override

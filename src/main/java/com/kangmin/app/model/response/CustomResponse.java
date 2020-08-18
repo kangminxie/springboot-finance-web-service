@@ -1,4 +1,4 @@
-package com.kangmin.app.model;
+package com.kangmin.app.model.response;
 
 import lombok.Data;
 

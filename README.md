@@ -10,8 +10,8 @@ Self-project-improvement
 * buy fund
 * sell fund
 * request check
-* update self-information (TBD)
-* change password (TBD)
+* update self-information
+* change self-password
 
 ### Admin Account User Cases
 * register new custom account
@@ -19,4 +19,7 @@ Self-project-improvement
 * create new fund
 * deposit check for normal user
 * transition day to change fund price
-* reset password (TBD)
+* reset custom-password
+
+### Notes
+* in a current session, password has been protected no we need to check DB using username

@@ -1,9 +1,11 @@
 package com.kangmin.app.controller.rest;
 
 import com.kangmin.app.model.Account;
-import com.kangmin.app.model.CustomResponse;
+import com.kangmin.app.model.response.CustomResponse;
 import com.kangmin.app.model.payload.LoginRequest;
-import com.kangmin.app.model.payload.GetCheckRequest;
+import com.kangmin.app.model.payload.custom.GetCheckRequest;
+import com.kangmin.app.model.payload.custom.UpdatePasswordRequest;
+import com.kangmin.app.model.payload.custom.UpdateProfileRequest;
 import com.kangmin.app.service.AccountService;
 
 import com.kangmin.app.util.Message;
@@ -111,5 +113,64 @@ public class AccountController {
         final Account account = (Account) session.getAttribute(SESSION_ACCOUNT);
 
         return accountService.requestCheck(account.getUsername(), form.getCashValue());
+    }
+
+    @RequestMapping(value = "/password", method = RequestMethod.POST)
+    public ResponseEntity<?> resetPassword(
+            final @Valid @RequestBody UpdatePasswordRequest form,
+            final BindingResult bindingResult,
+            final HttpServletRequest request
+    ) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        if (!form.getNewPassword().equals(form.getNewPasswordConfirm())) {
+            final CustomResponse response = new CustomResponse();
+            response.setMessage(Message.ACCOUNT_PASSWORD_NOT_MATCH);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+
+        final HttpSession session = request.getSession();
+        final Account account = (Account) session.getAttribute(SESSION_ACCOUNT);
+        return accountService.updatePassword(
+                account.getUsername(),
+                form.getCurrentPassword(),
+                form.getNewPassword()
+        );
+    }
+
+    @RequestMapping(value = "/profile", method = RequestMethod.POST)
+    public ResponseEntity<?> resetPassword(
+            final @Valid @RequestBody UpdateProfileRequest form,
+            final BindingResult bindingResult,
+            final HttpServletRequest request
+    ) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        final HttpSession session = request.getSession();
+        final Account account = (Account) session.getAttribute(SESSION_ACCOUNT);
+        final boolean isUpdateProfileSuccess = accountService.updateProfile(
+                account.getUsername(),
+                form.getEmail(),
+                form.getName()
+        );
+
+        final CustomResponse response = new CustomResponse();
+        if (isUpdateProfileSuccess) {
+            refreshCurrentSession(session, account.getUsername());
+            response.setMessage(Message.PROFILE_UPDATE_SUCCESS);
+        } else {
+            response.setMessage(Message.PROFILE_UPDATE_FAILED);
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    private void refreshCurrentSession(final HttpSession session, final String username) {
+        final Optional<Account> accountOpt = accountService.findByUsername(username);
+        accountOpt.ifPresent(account -> session.setAttribute(SESSION_ACCOUNT, account));
     }
 }

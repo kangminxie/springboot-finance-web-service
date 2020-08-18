@@ -1,10 +1,11 @@
 package com.kangmin.app.controller.rest;
 
 import com.kangmin.app.model.Account;
-import com.kangmin.app.model.CustomResponse;
+import com.kangmin.app.model.response.CustomResponse;
 import com.kangmin.app.model.payload.admin.CreateAccountRequest;
 import com.kangmin.app.model.payload.admin.CreateFundRequest;
 import com.kangmin.app.model.payload.admin.DepositCheckRequest;
+import com.kangmin.app.model.payload.admin.ResetPasswordRequest;
 import com.kangmin.app.model.payload.admin.TransitionDayRequest;
 import com.kangmin.app.service.AccountService;
 import com.kangmin.app.service.FundService;
@@ -124,5 +125,18 @@ public class AdminController {
         }
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/reset-custom-password", method = RequestMethod.POST)
+    public ResponseEntity<?> resetCustomPassword(
+            final @Valid @RequestBody ResetPasswordRequest form,
+            final BindingResult bindingResult
+    ) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        final String username = form.getUsername();
+        return accountService.resetCustomPassword(username);
     }
 }

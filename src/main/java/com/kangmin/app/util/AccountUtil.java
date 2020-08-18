@@ -18,4 +18,13 @@ public final class AccountUtil {
                 Double.parseDouble(form.getCash())
         );
     }
+
+    public static String generateRandomStr(final int size) {
+        if (size < 1 || size > 32) {
+            return "";
+        }
+
+        final String uuid = UUID.randomUUID().toString();
+        return uuid.substring(0, size);
+    }
 }

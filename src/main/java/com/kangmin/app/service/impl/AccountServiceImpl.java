@@ -3,10 +3,11 @@ package com.kangmin.app.service.impl;
 import com.kangmin.app.dao.AccountDao;
 import com.kangmin.app.dao.PositionDao;
 import com.kangmin.app.model.Account;
-import com.kangmin.app.model.CustomResponse;
+import com.kangmin.app.model.response.CustomResponse;
 import com.kangmin.app.model.Position;
 import com.kangmin.app.model.viewbean.FundInfo;
 import com.kangmin.app.service.AccountService;
+import com.kangmin.app.util.AccountUtil;
 import com.kangmin.app.util.Message;
 
 import org.springframework.http.HttpStatus;
@@ -117,6 +118,9 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public synchronized ResponseEntity<?> viewPortfolio(final Account account) {
         final Map<String, Object> map = new HashMap<>();
+        map.put("username", account.getUsername());
+        map.put("email", account.getEmail());
+        map.put("name", account.getName());
         map.put("cash", account.getCash());
 
         final List<Position> positions = positionDao.findByAccount(account);
@@ -140,6 +144,78 @@ public class AccountServiceImpl implements AccountService {
         map.put("funds", list);
         map.put("message", "The action was successful");
         return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @Override
+    public boolean updateProfile(final String username,
+                                 final String email,
+                                 final String name) {
+        final CustomResponse response = new CustomResponse();
+
+        final Optional<Account> accountOpt = accountDao.findByUsername(username);
+        if (accountOpt.isPresent()) {
+            final Account account = accountOpt.get();
+            account.setEmail(email);
+            account.setName(name);
+            accountDao.save(account);
+            // == need to refresh session ==
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public ResponseEntity<?> updatePassword(final String username,
+                                            final String currentPassword,
+                                            final String newPassword) {
+        final CustomResponse response = new CustomResponse();
+        final Optional<Account> accountOpt = accountDao.findByUsername(username);
+        if (accountOpt.isEmpty()) {
+            response.setMessage(Message.ACCOUNT_DOES_NOT_EXIST);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+
+        final Account account = accountOpt.get();
+        if (account.getPassword().equals(currentPassword)) {
+            account.setPassword(newPassword);
+            accountDao.save(account);
+            response.setMessage(Message.PASSWORD_UPDATE_SUCCESS);
+        } else {
+            response.setMessage(Message.CURRENT_PASSWORD_INCORRECT);
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> resetCustomPassword(final String username) {
+        final CustomResponse response = new CustomResponse();
+        final Optional<Account> accountOpt = accountDao.findByUsername(username);
+
+        if (accountOpt.isPresent()) {
+            final Account account = accountOpt.get();
+            if (account.getRole().equals("NORMAL")) {
+                final String newPassword = AccountUtil.generateRandomStr(8);
+                account.setPassword(newPassword);
+                accountDao.save(account);
+                response.setMessage(String.format(
+                        "Successfully generated new password for %s: %s!", username, newPassword
+                ));
+            } else {
+                // == admin could not reset admins' password ==
+                response.setMessage(Message.NOT_AUTHORIZED);
+            }
+        } else {
+            response.setMessage(Message.ACCOUNT_DOES_NOT_EXIST);
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Override
+    public Optional<Account> findByUsername(final String username) {
+        return accountDao.findByUsername(username);
     }
 
     private FundInfo mappingPositionToFundInfo(final Position p) {

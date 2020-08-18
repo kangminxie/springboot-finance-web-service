@@ -1,6 +1,6 @@
 package com.kangmin.app.controller.rest;
 
-import com.kangmin.app.model.CustomResponse;
+import com.kangmin.app.model.response.CustomResponse;
 import com.kangmin.app.util.Message;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

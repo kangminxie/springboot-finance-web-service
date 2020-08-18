@@ -4,7 +4,7 @@ import com.kangmin.app.dao.AccountDao;
 import com.kangmin.app.dao.FundDao;
 import com.kangmin.app.dao.PositionDao;
 import com.kangmin.app.model.Account;
-import com.kangmin.app.model.CustomResponse;
+import com.kangmin.app.model.response.CustomResponse;
 import com.kangmin.app.model.Fund;
 import com.kangmin.app.model.Position;
 import com.kangmin.app.service.FundService;

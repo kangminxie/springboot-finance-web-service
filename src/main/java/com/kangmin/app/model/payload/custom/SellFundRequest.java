@@ -1,4 +1,4 @@
-package com.kangmin.app.model.payload;
+package com.kangmin.app.model.payload.custom;
 
 import lombok.Data;
 

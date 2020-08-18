@@ -6,6 +6,10 @@ public final class Message {
     public static final String NOT_LOGGED_IN = "You are not currently logged in";
     public static final String INCORRECT_CREDENTIALS = "There seems to be an issue with the username/password combination that you entered";
     public static final String LOGGED_OUT = "You have been successfully logged out";
+    public static final String CURRENT_PASSWORD_INCORRECT = "The current password is incorrect";
+    public static final String PROFILE_UPDATE_SUCCESS = "Your profile has been updated successfully";
+    public static final String PROFILE_UPDATE_FAILED = "Sorry, your profile update is not processed, please retry";
+    public static final String PASSWORD_UPDATE_SUCCESS = "Your password has been updated successfully";
 
     // == funds related ==
     public static final String INSUFFICIENT_CASH_BUY_FUND = "You don't have enough cash in your account to make this purchase";
@@ -22,7 +26,7 @@ public final class Message {
     // == admin ==
     public static final String ACCOUNT_PASSWORD_NOT_MATCH = "The password does not match";
     public static final String ACCOUNT_ALREADY_EXIST = "The account with input email or username is already existed";
-    public static final String ACCOUNT_DOES_NOT_EXIST = "The account with input email/username doesn't exist";
+    public static final String ACCOUNT_DOES_NOT_EXIST = "The account associated with request doesn't exist";
     public static final String ACCOUNT_CREATED_SUCCESS = "The account was successfully created";
     public static final String FUND_ALREADY_EXIST = "The fund with name or symbol is already existed";
     public static final String FUND_CREATED_SUCCESS = "The fund was successfully created";

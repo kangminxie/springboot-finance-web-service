@@ -1,10 +1,10 @@
 package com.kangmin.app.controller.rest;
 
 import com.kangmin.app.model.Account;
-import com.kangmin.app.model.CustomResponse;
+import com.kangmin.app.model.response.CustomResponse;
 import com.kangmin.app.model.Fund;
-import com.kangmin.app.model.payload.BuyFundRequest;
-import com.kangmin.app.model.payload.SellFundRequest;
+import com.kangmin.app.model.payload.custom.BuyFundRequest;
+import com.kangmin.app.model.payload.custom.SellFundRequest;
 import com.kangmin.app.service.FundService;
 import com.kangmin.app.util.Message;
 import org.slf4j.Logger;

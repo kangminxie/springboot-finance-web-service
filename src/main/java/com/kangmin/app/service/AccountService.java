@@ -21,4 +21,12 @@ public interface AccountService {
     ResponseEntity<?> requestCheck(String username, String amountStr);
 
     ResponseEntity<?> viewPortfolio(Account account);
+
+    boolean updateProfile(String username, String email, String name);
+
+    ResponseEntity<?> updatePassword(String username, String currentPassword, String newPassword);
+
+    ResponseEntity<?> resetCustomPassword(String username);
+
+    Optional<Account> findByUsername(String username);
 }
