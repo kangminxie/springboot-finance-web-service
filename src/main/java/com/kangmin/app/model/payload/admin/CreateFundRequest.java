@@ -17,7 +17,7 @@ public class CreateFundRequest {
     private String name;
 
     @NotBlank
-    @Size(min = 1)
+    @Size(min = 2)
     private String symbol;
 
     @NotBlank

@@ -28,7 +28,7 @@ public class StaticDataLoader implements CommandLineRunner {
                             "id-0000",
                             "dev@security.com",
                             "dev",
-                            "Name-dev",
+                            "NameDev",
                             "SUPER_ADMIN",
                             "dev"
                     )
@@ -38,7 +38,7 @@ public class StaticDataLoader implements CommandLineRunner {
                             "id-0001",
                             "sa@sa.com",
                             "sa",
-                            "NameSA",
+                            "NameSuperAdmin",
                             "SUPER_ADMIN",
                             "password"
                     )
@@ -51,7 +51,7 @@ public class StaticDataLoader implements CommandLineRunner {
                             "NameNormal",
                             "NORMAL",
                             "normal",
-                            5000.0
+                            12000.0
                     )
             );
             accountService.createAccount(
@@ -67,10 +67,10 @@ public class StaticDataLoader implements CommandLineRunner {
         }
 
         if (fundService.getAll().isEmpty()) {
-            fundService.createFund("Amazon", "AMZN", 100.00);
-            fundService.createFund("Apple", "APPL", 200.00);
-            fundService.createFund("Facebook", "FABK", 150.00);
-            fundService.createFund("Google", "GOOG", 300.00);
+            fundService.createFund("Amazon", "AMZN", 3312.19);
+            fundService.createFund("Apple", "AAPL", 462.25);
+            fundService.createFund("Facebook", "FB", 262.34);
+            fundService.createFund("Google", "GOOGL", 1555.78);
         }
     }
 }

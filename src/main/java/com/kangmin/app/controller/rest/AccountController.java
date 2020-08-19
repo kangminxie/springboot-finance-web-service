@@ -88,14 +88,6 @@ public class AccountController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    // == GET /viewPortfolio ==
-    @RequestMapping(value = "/viewPortfolio", method = RequestMethod.GET)
-    public ResponseEntity<?> viewPortfolio(final HttpServletRequest request)  {
-        final HttpSession session = request.getSession();
-        final Account account = (Account) session.getAttribute(SESSION_ACCOUNT);
-        return accountService.viewPortfolio(account);
-    }
-
     // == POST /requestCheck ==
     @RequestMapping(value = "/requestCheck", method = RequestMethod.POST)
     public ResponseEntity<?> requestCheck(
@@ -115,7 +107,7 @@ public class AccountController {
         return accountService.requestCheck(account.getUsername(), form.getCashValue());
     }
 
-    @RequestMapping(value = "/password", method = RequestMethod.POST)
+    @RequestMapping(value = "/password", method = RequestMethod.PUT)
     public ResponseEntity<?> resetPassword(
             final @Valid @RequestBody UpdatePasswordRequest form,
             final BindingResult bindingResult,
@@ -140,7 +132,16 @@ public class AccountController {
         );
     }
 
-    @RequestMapping(value = "/profile", method = RequestMethod.POST)
+    // == GET /profile ==
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    public ResponseEntity<?> viewProfileInfo(final HttpServletRequest request)  {
+        final HttpSession session = request.getSession();
+        final Account account = (Account) session.getAttribute(SESSION_ACCOUNT);
+        return accountService.viewPortfolio(account);
+    }
+
+    // == PUT /profile ==
+    @RequestMapping(value = "/profile", method = RequestMethod.PUT)
     public ResponseEntity<?> resetPassword(
             final @Valid @RequestBody UpdateProfileRequest form,
             final BindingResult bindingResult,
