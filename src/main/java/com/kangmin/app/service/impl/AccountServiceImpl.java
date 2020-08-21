@@ -43,6 +43,16 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Optional<Account> findByUsername(final String username) {
+        return accountDao.findByUsername(username);
+    }
+
+    @Override
+    public Optional<Account> findById(final String id) {
+        return accountDao.findById(id);
+    }
+
+    @Override
     public boolean isAccountExistByEmailOrUsername(final String email, final String username) {
         return accountDao.existsAccountByEmailOrUsername(email, username);
     }
@@ -107,7 +117,7 @@ public class AccountServiceImpl implements AccountService {
 
             account.setCash(newCash);
             accountDao.save(account);
-            response.setMessage(Message.DEPOSIT_CHECK_SUCCESS);
+            response.setMessage(Message.REQUEST_CHECK_SUCCESS);
         } else {
             response.setMessage(Message.ACCOUNT_DOES_NOT_EXIST);
         }
@@ -200,7 +210,7 @@ public class AccountServiceImpl implements AccountService {
                 account.setPassword(newPassword);
                 accountDao.save(account);
                 response.setMessage(String.format(
-                        "Successfully generated new password for %s: %s!", username, newPassword
+                        "Successfully generated new password for %s: %s.", username, newPassword
                 ));
             } else {
                 // == admin could not reset admins' password ==
@@ -211,11 +221,6 @@ public class AccountServiceImpl implements AccountService {
         }
 
         return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @Override
-    public Optional<Account> findByUsername(final String username) {
-        return accountDao.findByUsername(username);
     }
 
     private FundInfo mappingPositionToFundInfo(final Position p) {

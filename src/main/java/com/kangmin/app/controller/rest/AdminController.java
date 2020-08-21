@@ -15,10 +15,7 @@ import com.kangmin.app.util.Message;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -46,6 +43,13 @@ public class AdminController {
     public ResponseEntity<List<Account>> getAllAccounts() {
         final List<Account> accounts = accountService.getAll();
         return new ResponseEntity<>(accounts, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = {"/accounts/{id}"}, method = RequestMethod.GET)
+    public ResponseEntity<Account> getOneAccount(final @PathVariable String id) {
+        final Account account = accountService.findById(id)
+                .orElseThrow(() -> new IllegalStateException(String.format("Account with id=%s does not exist！", id)));
+        return new ResponseEntity<>(account, HttpStatus.OK);
     }
 
     // == only admin can POST create new account ==

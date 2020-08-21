@@ -21,6 +21,7 @@ public final class Message {
 
     // == check deposit & request ==
     public static final String DEPOSIT_CHECK_SUCCESS = "The check was successfully deposited";
+    public static final String REQUEST_CHECK_SUCCESS = "Your check request has been initialized";
     public static final String INSUFFICIENT_CASH_CHECK_REQUEST = "You don't have sufficient funds in your account to cover the requested check";
 
     // == admin ==

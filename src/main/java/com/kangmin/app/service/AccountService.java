@@ -10,6 +10,10 @@ public interface AccountService {
 
     List<Account> getAll();
 
+    Optional<Account> findByUsername(String username);
+
+    Optional<Account> findById(String id);
+
     Optional<Account> createAccount(Account account);
 
     boolean isAccountExistByEmailOrUsername(String email, String username);
@@ -27,6 +31,4 @@ public interface AccountService {
     ResponseEntity<?> updatePassword(String username, String currentPassword, String newPassword);
 
     ResponseEntity<?> resetCustomPassword(String username);
-
-    Optional<Account> findByUsername(String username);
 }
