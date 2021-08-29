@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/mountkingx/finance-web-service-v1/tree/master.svg?style=svg)](https://circleci.com/gh/mountkingx/finance-web-service-v1/tree/master)
+
 # finance-fund-web-service 
 
   (current version: 0.0.1, session-based REST)
