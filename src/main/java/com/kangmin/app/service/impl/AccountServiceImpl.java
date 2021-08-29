@@ -76,9 +76,13 @@ public class AccountServiceImpl implements AccountService {
     public Optional<Account> loginAuthenticate(final String username, final String password) {
         final Optional<Account> accountOpt = accountDao.findByUsername(username);
         if (accountOpt.isPresent()) {
-            final Account sessionAccount = accountOpt.get();
-            sessionAccount.setPassword("[***protected***]");
-            return Optional.of(sessionAccount);
+            final Account targetAccount = accountOpt.get();
+            if (!targetAccount.getPassword().equals(password)) {
+                return Optional.empty();
+            }
+
+            targetAccount.setPassword("[***protected***]");
+            return Optional.of(targetAccount);
         }
         return Optional.empty();
     }

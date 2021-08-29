@@ -7,7 +7,6 @@ import com.kangmin.app.model.payload.custom.GetCheckRequest;
 import com.kangmin.app.model.payload.custom.UpdatePasswordRequest;
 import com.kangmin.app.model.payload.custom.UpdateProfileRequest;
 import com.kangmin.app.service.AccountService;
-
 import com.kangmin.app.util.Message;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +48,12 @@ public class AccountController {
         final HttpSession session = request.getSession();
         final CustomResponse response = new CustomResponse();
 
+        final Account loggedInAccount = (Account) session.getAttribute(SESSION_ACCOUNT);
+        if (loggedInAccount != null) {
+            response.setMessage(Message.ALREADY_LOGGED_IN);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+
         if (bindingResult.hasErrors()) {
             response.setMessage(Message.REQUEST_FIELD_ISSUE);
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
@@ -80,7 +85,7 @@ public class AccountController {
         if (sessionAccount == null) {
             response.setMessage(Message.NOT_LOGGED_IN);
         } else {
-            // == login user ==
+            // == logged-in user ==
             session.setAttribute(SESSION_ACCOUNT, null);
             response.setMessage(Message.LOGGED_OUT);
         }

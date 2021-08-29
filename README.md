@@ -37,7 +37,7 @@ baseUrl = localhost:8080, all URIs below based on baseUrl
 
 ### Common actions
 
-* POST `/login` with payload JSON, example:
+* POST `/login` with payload JSON, request example:
 ```json
 {
     "username": "dev",
@@ -45,16 +45,23 @@ baseUrl = localhost:8080, all URIs below based on baseUrl
 }
 ```
 
+success response:
 ```json
 {
-    "message": "Welcome dev"
+    "message": "Welcome dev."
+}
+```
+failed response:
+```json
+{
+    "message": "There seems to be an issue with the username/password combination that you entered."
 }
 ```
 
 * POST `/logout` directly without payload
 ```json
 {
-    "message": "You have been successfully logged out"
+    "message": "You have been successfully logged out."
 }
 ```
 
@@ -101,7 +108,7 @@ baseUrl = localhost:8080, all URIs below based on baseUrl
 ```json
 {
     "name": "NameNormal",
-    "message": "You don't have any funds in your Portfolio",
+    "message": "You don't have any funds in your portfolio.",
     "cash": 12000.0,
     "email": "normal111@security.com",
     "username": "normal"
@@ -131,7 +138,7 @@ baseUrl = localhost:8080, all URIs below based on baseUrl
 ```
 ```json
 {
-    "message": "Your password has been updated successfully"
+    "message": "Your password has been updated successfully."
 }
 ```
 
@@ -146,7 +153,7 @@ baseUrl = localhost:8080, all URIs below based on baseUrl
 ```
 ```json
 {
-    "message": "The fund has been successfully purchased"
+    "message": "The fund has been successfully purchased."
 }
 ```
 
@@ -159,7 +166,7 @@ baseUrl = localhost:8080, all URIs below based on baseUrl
 ```
 ```json
 {
-    "message": "The shares have been successfully sold"
+    "message": "The shares have been successfully sold."
 }
 ```
 
@@ -171,7 +178,7 @@ baseUrl = localhost:8080, all URIs below based on baseUrl
 ```
 ```json
 {
-    "message": "Your check request has been initialized"
+    "message": "Your check request has been initialized."
 }
 ```
 
@@ -227,7 +234,7 @@ baseUrl = localhost:8080, all URIs below based on baseUrl
 ```
 ```json
 {
-    "message": "The account was successfully created"
+    "message": "The account was successfully created."
 }
 ```
 
@@ -241,7 +248,7 @@ baseUrl = localhost:8080, all URIs below based on baseUrl
 ```
 ```json
 {
-    "message": "The fund was successfully created"
+    "message": "The fund was successfully created."
 }
 ```
 
@@ -254,7 +261,7 @@ baseUrl = localhost:8080, all URIs below based on baseUrl
 ```
 ```json
 {
-    "message": "The check was successfully deposited"
+    "message": "The check was successfully deposited."
 }
 ```
 

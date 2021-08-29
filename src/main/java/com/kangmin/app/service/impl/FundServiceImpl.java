@@ -107,7 +107,7 @@ public class FundServiceImpl implements FundService {
             account.setCash(account.getCash() - Double.parseDouble(cashValue));
             accountDao.save(account);
 
-            response.setMessage(Message.BUY_FUND_SUCCESS);
+            response.setMessage(String.format(Message.BUY_FUND_SUCCESS, symbol, cashValue));
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
 
@@ -136,7 +136,7 @@ public class FundServiceImpl implements FundService {
                     final double increasedCash = soldShares * fund.getPrice();
                     account.setCash(account.getCash() + increasedCash);
                     accountDao.save(account);
-                    response.setMessage(Message.SELL_FUND_SUCCESS);
+                    response.setMessage(String.format(Message.SELL_FUND_SUCCESS, soldShares, symbol));
                     return new ResponseEntity<>(response, HttpStatus.OK);
                 }
             }
