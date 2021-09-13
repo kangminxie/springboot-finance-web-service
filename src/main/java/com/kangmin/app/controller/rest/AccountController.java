@@ -71,7 +71,7 @@ public class AccountController {
         }
 
         response.setMessage(Message.INCORRECT_CREDENTIALS);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     // == POST /logout ==
@@ -84,13 +84,13 @@ public class AccountController {
 
         if (sessionAccount == null) {
             response.setMessage(Message.NOT_LOGGED_IN);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         } else {
             // == logged-in user ==
             session.setAttribute(SESSION_ACCOUNT, null);
             response.setMessage(Message.LOGGED_OUT);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // == POST /requestCheck ==
@@ -125,7 +125,7 @@ public class AccountController {
         if (!form.getNewPassword().equals(form.getNewPasswordConfirm())) {
             final CustomResponse response = new CustomResponse();
             response.setMessage(Message.ACCOUNT_PASSWORD_NOT_MATCH);
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
         final HttpSession session = request.getSession();
@@ -168,11 +168,11 @@ public class AccountController {
         if (isUpdateProfileSuccess) {
             refreshCurrentSession(session, account.getUsername());
             response.setMessage(Message.PROFILE_UPDATE_SUCCESS);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             response.setMessage(Message.PROFILE_UPDATE_FAILED);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     private void refreshCurrentSession(final HttpSession session, final String username) {

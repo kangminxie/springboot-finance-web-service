@@ -70,12 +70,12 @@ public class AdminController {
 
         if (!form.getPassword().equals(form.getPassword2())) {
             response.setMessage(Message.ACCOUNT_PASSWORD_NOT_MATCH);
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
         if (accountService.isAccountExistByEmailOrUsername(form.getEmail(), form.getUsername())) {
             response.setMessage(Message.ACCOUNT_ALREADY_EXIST);
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
         final Account account = AccountUtil.mapFormToAccount(form);

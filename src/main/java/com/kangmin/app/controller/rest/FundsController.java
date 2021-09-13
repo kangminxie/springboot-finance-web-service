@@ -68,7 +68,7 @@ public class FundsController {
         final Account account = (Account) session.getAttribute(SESSION_ACCOUNT);
         if (account.getCash() < Double.parseDouble(form.getCashValue())) {
             response.setMessage(Message.INSUFFICIENT_CASH_BUY_FUND);
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
         return fundService.buyFund(account, form.getSymbol(), form.getCashValue());
@@ -88,7 +88,7 @@ public class FundsController {
         final CustomResponse response = new CustomResponse();
         if (fundService.isNotExistBySymbol(form.getSymbol())) {
             response.setMessage(Message.FUND_DOES_NOT_EXIST);
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
         final HttpSession session = request.getSession();

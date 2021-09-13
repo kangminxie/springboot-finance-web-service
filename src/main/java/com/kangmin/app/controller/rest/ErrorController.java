@@ -16,20 +16,20 @@ public class ErrorController {
     public ResponseEntity<CustomResponse> handleInvalidSession() {
         final CustomResponse response = new CustomResponse();
         response.setMessage(Message.NOT_LOGGED_IN);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
     @RequestMapping(value = "/access-denied", method = RequestMethod.GET)
     public ResponseEntity<CustomResponse> handleNotAuthorized() {
         final CustomResponse response = new CustomResponse();
         response.setMessage(Message.NOT_AUTHORIZED);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 
     @RequestMapping(value = "/access-excluded", method = RequestMethod.GET)
     public ResponseEntity<CustomResponse> handleAccessExcluded() {
         final CustomResponse response = new CustomResponse();
         response.setMessage(Message.ACCESS_EXCLUDED);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 }
