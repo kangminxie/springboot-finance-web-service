@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/mountkingx/finance-web-service/tree/master.svg?style=svg)](https://circleci.com/gh/mountkingx/finance-web-service-v1/tree/master)
+[![CircleCI](https://circleci.com/gh/mountkingx/finance-web-service/tree/master.svg?style=svg)](https://circleci.com/gh/mountkingx/finance-web-service/tree/master)
 
 # finance-fund-web-service 
 
