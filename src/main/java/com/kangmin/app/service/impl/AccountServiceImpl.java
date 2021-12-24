@@ -132,6 +132,8 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public synchronized ResponseEntity<?> viewPortfolio(final Account account) {
         final Map<String, Object> map = new HashMap<>();
+        map.put("id", account.getId());
+        map.put("role", account.getRole());
         map.put("username", account.getUsername());
         map.put("email", account.getEmail());
         map.put("name", account.getName());
