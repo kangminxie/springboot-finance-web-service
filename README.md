@@ -9,6 +9,7 @@
 * Session hold for 15 minutes for logged-in account
 * client:
     - https://github.com/mountkingx/react-node-ssr-server
+    - https://salty-refuge-79764.herokuapp.com/
 
 ### Common User Cases
 * login & logout
@@ -38,6 +39,11 @@
 ## API Endpoints in Development
 
 baseUrl = localhost:8080, all URIs below based on baseUrl
+
+### heroku information
+- https://enigmatic-refuge-09494.herokuapp.com/
+- git.heroku.com/enigmatic-refuge-09494.git main
+- https://dashboard.heroku.com/apps/enigmatic-refuge-09494
 
 ### Common actions
 
