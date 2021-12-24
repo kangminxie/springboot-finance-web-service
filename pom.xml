@@ -17,7 +17,6 @@
 	<properties>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
-		<maven.compiler.release>11</maven.compiler.release>
 	</properties>
 
 	<dependencies>
@@ -89,6 +88,25 @@
 					<source>11</source>
 					<target>11</target>
 				</configuration>
+				<executions>
+					<execution>
+						<id>java11</id>
+						<phase>none</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<configuration>
+							<release>11</release>
+							<jdkToolchain>
+								<version>11</version>
+							</jdkToolchain>
+							<compileSourceRoots>
+								<compileSourceRoot>${project.basedir}/src/main/java11</compileSourceRoot>
+							</compileSourceRoots>
+							<outputDirectory>${project.build.outputDirectory}/META-INF/versions/11</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<!-- mvn checkstyle -->
 			<plugin>
@@ -109,5 +127,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
