@@ -1,5 +1,4 @@
-[![CircleCI](https://circleci.com/gh/mountkingx/finance-web-service/tree/master.svg?style=svg)](https://circleci.com/gh/mountkingx/finance-web-service-v1/tree/master)
-
+[![CircleCI](https://circleci.com/gh/mountkingx/springboot-finance-web-service/tree/master.svg?style=svg)](https://circleci.com/gh/mountkingx/springboot-finance-web-service/tree/master)
 # finance-fund-web-service 
 
   (current version: 0.0.1, session-based REST)
@@ -7,6 +6,8 @@
 * Spring boot as a REST backend
 * Use filters to check session-account and account role
 * Session hold for 15 minutes for logged-in account
+* client:
+    - https://github.com/mountkingx/react-node-ssr-server
 
 ### Common User Cases
 * login & logout
