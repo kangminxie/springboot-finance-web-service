@@ -68,7 +68,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addCorsMappings(final CorsRegistry registry) {
         registry.addMapping("/**")
             .allowedOrigins(
-                "https://salty-refuge-79764.herokuapp.com/",
+                "https://salty-refuge-79764.herokuapp.com",
                 "http://localhost:3000",
                 "http://localhost:3001",
                 "http://localhost:4200",

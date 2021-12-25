@@ -39,7 +39,7 @@ public final class Message {
     public static final String TRANSITION_DAY_SUCCESS = "The fund prices have been successfully recalculated.";
 
     // == test or general ==
-    public static final String INDEX = "Hello user, please sign-in (/login) to perform actions.\n"
+    public static final String INDEX = "Hello user, please sign-in (/login) to perform actions. "
         + "API reference can be found here: https://github.com/mountkingx/springboot-finance-web-service";
     public static final String UNSUPPORTED = "unsupported request.";
     public static final String REQUEST_FIELD_ISSUE = "please check your request fields.";
